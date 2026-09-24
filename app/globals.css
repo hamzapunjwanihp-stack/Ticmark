@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens — Ticmark Properties                                   */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  /* Brand */
+  --color-ink: #1c1e33; /* primary dark navy */
+  --color-navy: #20244c; /* secondary navy */
+  --color-navy-700: #2b3060;
+  --color-cyan: #34a4d6; /* primary cyan — accents, never small text on white */
+  --color-cyan-50: #eef8fc;
+  --color-cyan-100: #d9eff9;
+  --color-teal: #1d88ae; /* secondary teal */
+  --color-teal-ink: #16708f; /* accessible teal for small text on white (5.6:1) */
+
+  /* Neutrals */
+  --color-muted: #606060;
+  --color-body: #4a4f63;
+  --color-subtle: #7b8093;
+  --color-line: #e7ebef;
+  --color-line-strong: #d6dce3;
+  --color-mist: #f6f8fa;
+  --color-mist-2: #f4f7f9;
+
+  --color-whatsapp: #1f9d55;
+
+  /* Radii */
+  --radius-card: 18px;
+
+  /* Shadows — deliberately subtle */
+  --shadow-soft: 0 1px 2px rgb(28 30 51 / 0.04), 0 10px 30px -18px rgb(28 30 51 / 0.18);
+  --shadow-lift: 0 2px 6px rgb(28 30 51 / 0.05), 0 22px 44px -22px rgb(28 30 51 / 0.32);
+  --shadow-panel: 0 24px 60px -24px rgb(28 30 51 / 0.35);
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-hero-in: hero-in 1s var(--ease-premium) both;
+  --animate-fade-in: fade-in 0.3s ease-out both;
+  --animate-panel-in: panel-in 0.35s var(--ease-premium) both;
+  --animate-drawer-in: drawer-in 0.4s var(--ease-premium) both;
+  --animate-drawer-in-left: drawer-in-left 0.4s var(--ease-premium) both;
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 12px, 0) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes drawer-in {
+    from {
+      transform: translate3d(100%, 0, 0);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes drawer-in-left {
+    from {
+      transform: translate3d(-100%, 0, 0);
+    }
+    to {
+      transform: none;
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                 */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    background: #fff;
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-cyan-100);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Scroll reveal (only when JS is available)                            */
+/* ------------------------------------------------------------------ */
+
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.8s var(--ease-premium) var(--reveal-delay, 0ms),
+    transform 0.8s var(--ease-premium) var(--reveal-delay, 0ms);
+}
+
+.js .reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Architectural clip (angled corners echo the logo's roofline) — featured video frame, CTA panels. */
+@utility clip-architect {
+  clip-path: polygon(0 0, calc(100% - 72px) 0, 100% 72px, 100% 100%, 72px 100%, 0 calc(100% - 72px));
+}
+
+@utility clip-corner {
+  clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.select-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237b8093' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 16px;
+}
+
+/* Legal / long-form copy */
+.prose-legal h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.prose-legal p,
+.prose-legal li {
+  line-height: 1.8;
+  color: var(--color-body);
+}
+.prose-legal p + p {
+  margin-top: 1rem;
+}
+.prose-legal ul {
+  margin-top: 0.75rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.prose-legal li + li {
+  margin-top: 0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
